@@ -1,6 +1,6 @@
 import pygame
 
-class Spritesheet:
+class Roll:
     def __init__(self) -> None:
         self.surf: pygame.surface.Surface = None
 

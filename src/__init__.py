@@ -1,5 +1,5 @@
-from .Easel import Easel
-from .Palette import Palette
-from .SpriteHandler import SpriteHandler
+from .Arrangement import Arrangement
+from .Scale import Scale
+from .RollHandler import RollHandler
 
-__all__ = ["Easel", "Palette", "SpriteHandler"]
+__all__ = ["Arrangement", "Scale", "RollHandler"]

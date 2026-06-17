@@ -1,6 +1,6 @@
 import pygame
 
-COLOR_PALETTE = [
+NOTES = [
     "#000000",
     "#1D2B53",
     "#7E2553",
@@ -19,7 +19,7 @@ COLOR_PALETTE = [
     "#FFCCAA",
 ]
 
-class Palette:
+class Scale:
     def __init__(self) -> None:
         self.surf: pygame.surface.Surface = None
         self.color_selected: str = None
@@ -42,11 +42,11 @@ class Palette:
     def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]) -> None:
         parent_surf.blit(self.surf, coordinates)
         self.surf.fill((100,100,100))
-        self._draw_palette(coordinates)
+        self._draw_scale(coordinates)
 
-    def _draw_palette(self, offset: tuple[int, int]) -> None:
+    def _draw_scale(self, offset: tuple[int, int]) -> None:
         for i in range(16):
-            pygame.draw.rect(self.surf, pygame.Color(COLOR_PALETTE[i]), self._rects[i])
+            pygame.draw.rect(self.surf, pygame.Color(NOTES[i]), self._rects[i])
             self._hover_and_select(i, offset)
 
     def _hover_and_select(self, idx: int, offset: tuple[int, int]) -> None:
@@ -58,7 +58,7 @@ class Palette:
             pygame.draw.rect(self.surf, pygame.Color(0,0,0), self._rects[idx], 1)
 
             if pygame.mouse.get_pressed()[0]:
-                self.color_selected = COLOR_PALETTE[idx]
+                self.color_selected = NOTES[idx]
 
     def _define_color_rects(self) -> None:
         self._rects = []

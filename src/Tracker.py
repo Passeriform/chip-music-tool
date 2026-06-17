@@ -1,11 +1,11 @@
 import pygame
-from .SpriteHandler import SpriteHandler
+from .RollHandler import RollHandler
 
-class Canvas:
-    def __init__(self, SpriteHandler: SpriteHandler) -> None:
+class Tracker:
+    def __init__(self, RollHandler: RollHandler) -> None:
         self.surf: pygame.surface.Surface = None
         self.color_selected: str = None
-        self.sprite_handler = SpriteHandler
+        self.roll_handler = RollHandler
 
         self._tile_size: int = 0
         self._rects: list[pygame.rect.Rect] = []
@@ -17,18 +17,18 @@ class Canvas:
         self.surf = pygame.surface.Surface((parent_surf.get_width(), 3 * parent_surf.get_height() // 4))
         self._tile_size = min(self.surf.get_width(), self.surf.get_height()) // 9
         self._rect_colors = self._rect_colors or ["#000000"] * (8 * 8)
-        self._define_canvas_rects()
+        self._define_tracker_rects()
 
     def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]) -> None:
         parent_surf.blit(self.surf, coordinates)
         self.surf.fill((100,200,100))
 
-        self._draw_canvas()
+        self._draw_tracker()
 
     def reset(self):
-        self._rect_colors = [self.sprite_handler.sprites[self.sprite_handler.offset + (idx // 8 * 128 + idx % 8)].color for idx in range (8*8)]
+        self._rect_colors = [self.roll_handler.regions[self.roll_handler.offset + (idx // 8 * 128 + idx % 8)].color for idx in range (8*8)]
 
-    def _draw_canvas(self) -> None:
+    def _draw_tracker(self) -> None:
         for i in range (8 * 8):
             pygame.draw.rect(self.surf, pygame.Color(self._rect_colors[i]), self._rects[i])
             self._hover_and_select(i, (0,0))
@@ -43,10 +43,10 @@ class Canvas:
 
             if pygame.mouse.get_pressed()[0]:
                 self._rect_colors[idx] = self.color_selected
-                transformed_idx = self.sprite_handler.offset + idx // 8 * 128 + idx % 8
-                self.sprite_handler.sprites[transformed_idx].color = self.color_selected
+                transformed_idx = self.roll_handler.offset + idx // 8 * 128 + idx % 8
+                self.roll_handler.regions[transformed_idx].color = self.color_selected
 
-    def _define_canvas_rects(self) -> None:
+    def _define_tracker_rects(self) -> None:
         self._rects = []
         self._X_PADDING = (self.surf.get_width() - (self._tile_size * 8)) // 2
         self._Y_PADDING = (self.surf.get_height() - (self._tile_size * 8)) // 2
