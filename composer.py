@@ -26,7 +26,7 @@ class Composer:
             self.arrangement.blit(self.surface, (0,0))
             self.scale.blit(self.surface, (self.arrangement.surf.get_width(), 0))
 
-            self.arrangement.set_color(self.scale.get_color())
+            self.arrangement.set_note(self.scale.get_note())
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

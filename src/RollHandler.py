@@ -1,8 +1,8 @@
 class Region:
-    def __init__(self, x, y, color) -> None:
+    def __init__(self, x, y, note) -> None:
         self.x: int = x
         self.y: int = y
-        self.color: str = color
+        self.note: str = note
 
 class RollHandler:
     def __init__(self) -> None:
@@ -12,4 +12,4 @@ class RollHandler:
     def save(self, filename: str) -> None:
         with open(filename, 'w') as f:
             for region in self.regions:
-                f.write(f"{region.x},{region.y},{region.color}\n")
+                f.write(f"{region.x},{region.y},{region.note}\n")

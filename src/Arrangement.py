@@ -21,5 +21,5 @@ class Arrangement:
         self.tracker.blit(self.surf, (0,0))
         self.roll.blit(self.surf, (0, self.tracker.surf.get_height()))
 
-    def set_color(self, color: str):
-        self.tracker.color_selected = color
+    def set_note(self, note: str):
+        self.tracker.note_selected = note

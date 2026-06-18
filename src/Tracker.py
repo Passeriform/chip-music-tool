@@ -4,19 +4,19 @@ from .RollHandler import RollHandler
 class Tracker:
     def __init__(self, RollHandler: RollHandler) -> None:
         self.surf: pygame.surface.Surface = None
-        self.color_selected: str = None
+        self.note_selected: str = None
         self.roll_handler = RollHandler
 
         self._tile_size: int = 0
         self._rects: list[pygame.rect.Rect] = []
-        self._rect_colors: list[str] = None
+        self._rect_notes: list[str] = None
         self._X_PADDING: int = 0
         self._Y_PADDING: int = 0
 
     def resize(self, parent_surf: pygame.surface.Surface) -> None:
         self.surf = pygame.surface.Surface((parent_surf.get_width(), 3 * parent_surf.get_height() // 4))
         self._tile_size = min(self.surf.get_width(), self.surf.get_height()) // 9
-        self._rect_colors = self._rect_colors or ["#000000"] * (8 * 8)
+        self._rect_notes = self._rect_notes or ["#000000"] * (8 * 8)
         self._define_tracker_rects()
 
     def blit(self, parent_surf: pygame.surface.Surface, coordinates: tuple[int, int]) -> None:
@@ -26,11 +26,11 @@ class Tracker:
         self._draw_tracker()
 
     def reset(self):
-        self._rect_colors = [self.roll_handler.regions[self.roll_handler.offset + (idx // 8 * 128 + idx % 8)].color for idx in range (8*8)]
+        self._rect_notes = [self.roll_handler.regions[self.roll_handler.offset + (idx // 8 * 128 + idx % 8)].note for idx in range(8*8)]
 
     def _draw_tracker(self) -> None:
-        for i in range (8 * 8):
-            pygame.draw.rect(self.surf, pygame.Color(self._rect_colors[i]), self._rects[i])
+        for i in range(8 * 8):
+            pygame.draw.rect(self.surf, pygame.Color(self._rect_notes[i]), self._rects[i])
             self._hover_and_select(i, (0,0))
 
     def _hover_and_select(self, idx: int, offset: tuple[int, int]) -> None:
@@ -42,9 +42,9 @@ class Tracker:
             pygame.draw.rect(self.surf, pygame.Color(0,0,0), self._rects[idx], 1)
 
             if pygame.mouse.get_pressed()[0]:
-                self._rect_colors[idx] = self.color_selected
+                self._rect_notes[idx] = self.note_selected
                 transformed_idx = self.roll_handler.offset + idx // 8 * 128 + idx % 8
-                self.roll_handler.regions[transformed_idx].color = self.color_selected
+                self.roll_handler.regions[transformed_idx].note = self.note_selected
 
     def _define_tracker_rects(self) -> None:
         self._rects = []
